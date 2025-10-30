@@ -3,22 +3,30 @@ pipeline {
     stages {
         stage('Generate Terraform Code') {
             steps {
-                sh 'python3 main.py'
+                dir('jenkins-repo') {
+                    sh 'python3 main.py'
+                }
             }
         }
+
         stage('Commit to Git') {
             steps {
-                sh 'git config --global user.email "jenkins@example.com"'
-                sh 'git config --global user.name "Jenkins"'
-                sh 'git add main.tf'
-                sh 'git commit -m "Auto-generate Terraform code" || true'
+                dir('jenkins-repo') {
+                    sh 'git config --global user.email "jenkins@example.com"'
+                    sh 'git config --global user.name "Jenkins"'
+                    sh 'git add main.tf'
+                    sh 'git commit -m "Auto-generate Terraform code" || true'
+                }
             }
         }
+
         stage('Deploy with Terraform') {
             steps {
-                withCredentials([aws(credentialsId: 'aws-creds')]) {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                dir('jenkins-repo') {
+                    withCredentials([aws(credentialsId: 'aws-creds')]) {
+                        sh 'terraform init'
+                        sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
