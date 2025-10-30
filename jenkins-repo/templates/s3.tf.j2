@@ -1,0 +1,18 @@
+resource "aws_s3_bucket" "{{ data.bucket_name | replace('-', '_') }}" {
+  bucket = "{{ data.bucket_name }}"
+  acl    = "{{ data.acl | default('private') }}"
+
+  {% if data.versioning %}
+  versioning {
+    enabled = {{ 'true' if data.versioning else 'false' }}
+  }
+  {% endif %}
+
+  {% if data.tags %}
+  tags = {
+    {% for key, value in data.tags.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+}

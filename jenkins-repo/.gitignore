@@ -1,0 +1,10 @@
+main.tf
+*.tfstate
+*.tfstate.backup
+.terraform/
+__pycache__/
+.venv
+venv/
+*.pyc
+*.zip
+temp_repo/

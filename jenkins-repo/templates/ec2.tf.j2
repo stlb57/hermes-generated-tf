@@ -1,0 +1,31 @@
+# ────────────────────────────────────────────────
+# AWS EC2 Instance
+# ────────────────────────────────────────────────
+resource "aws_instance" "{{ data.name | replace('-', '_') }}" {
+  ami           = "{{ data.ami }}"
+  instance_type = "{{ data.instance_type }}"
+
+  {% if data.key_name %}
+  key_name = "{{ data.key_name }}"
+  {% endif %}
+
+  {% if data.subnet_id %}
+  subnet_id = "{{ data.subnet_id }}"
+  {% endif %}
+
+  {% if data.security_groups %}
+  vpc_security_group_ids = [
+    {% for sg in data.security_groups %}
+    "{{ sg }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+  {% endif %}
+
+  {% if data.tags %}
+  tags = {
+    {% for key, value in data.tags.items() %}
+    {{ key }} = "{{ value }}"
+    {% endfor %}
+  }
+  {% endif %}
+}
