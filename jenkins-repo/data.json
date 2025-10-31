@@ -1,11 +1,10 @@
-
 {
   "nodes": [
     {
       "id": "s3-node-1",
       "type": "s3",
       "data": {
-        "bucket_name": "hermes-final-bucket-12345",
+        "bucket_name": "hermes-generated-bucket-unique123",
         "acl": "private",
         "tags": {
           "Project": "Hermes",
@@ -17,9 +16,9 @@
       "id": "ec2-node-2",
       "type": "ec2",
       "data": {
-        "name": "hermes-web-server-01",
+        "name": "hermes-web-server",
         "instance_type": "t2.micro",
-        "ami": "ami-0c55b159300632a55",
+        "ami": "ami-0fc5d9351a613666a",
         "tags": {
           "Project": "Hermes",
           "ManagedBy": "Jenkins"
