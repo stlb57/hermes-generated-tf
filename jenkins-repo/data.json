@@ -18,7 +18,7 @@
       "data": {
         "name": "hermes-web-server",
         "instance_type": "t2.micro",
-        "ami": "ami-0fc5d9351a613666a",
+        "ami": "ami-0c55b159300632a55",
         "tags": {
           "Project": "Hermes",
           "ManagedBy": "Jenkins"
