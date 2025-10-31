@@ -1,32 +1,25 @@
+// In jenkins-repo/Jenkinsfile
 pipeline {
     agent any
     stages {
         stage('Generate Terraform Code') {
             steps {
-                dir('jenkins-repo') {
-                    sh 'python3 main.py'
-                }
+                sh 'python3 main.py'
             }
         }
-
         stage('Commit to Git') {
             steps {
-                dir('jenkins-repo') {
-                    sh 'git config --global user.email "jenkins@example.com"'
-                    sh 'git config --global user.name "Jenkins"'
-                    sh 'git add main.tf'
-                    sh 'git commit -m "Auto-generate Terraform code" || true'
-                }
+                sh 'git config --global user.email "jenkins@example.com"'
+                sh 'git config --global user.name "Jenkins"'
+                sh 'git add main.tf'
+                sh 'git commit -m "Auto-generate Terraform code by Jenkins" || true'
             }
         }
-
         stage('Deploy with Terraform') {
             steps {
-                dir('jenkins-repo') {
-                    withCredentials([aws(credentialsId: 'aws-creds')]) {
-                        sh 'terraform init'
-                        sh 'terraform apply -auto-approve'
-                    }
+                withCredentials([aws(credentialsId: 'aws-creds')]) {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
