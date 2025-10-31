@@ -14,7 +14,7 @@ pipeline {
                 dir('jenkins-repo') {
                     sh 'git config --global user.email "jenkins@example.com"'
                     sh 'git config --global user.name "Jenkins"'
-                    sh 'git add main.tf'
+                    sh 'git add -f main.tf'
                     sh 'git commit -m "Auto-generate Terraform code" || true'
                 }
             }
