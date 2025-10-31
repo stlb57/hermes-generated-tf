@@ -1,4 +1,3 @@
-// In jenkins-repo/Jenkinsfile
 pipeline {
     agent any
     // This block tells Jenkins to accept a parameter when the build is triggered.
@@ -9,12 +8,13 @@ pipeline {
         stage('Generate Terraform Code') {
             steps {
                 dir('jenkins-repo') {
-                    // This command takes the JSON parameter and "pipes" it into your Python script.
+                    // FIX: This command takes the JSON parameter from the frontend
+                    // and "pipes" it directly into your Python script.
                     sh "echo '${params.JSON_PAYLOAD}' | python3 main.py"
                 }
             }
         }
-        // The "Commit to Git" stage is no longer needed and should be removed.
+        // The "Commit to Git" stage is no longer needed because the frontend is the source of truth.
         stage('Deploy with Terraform') {
             steps {
                 dir('jenkins-repo') {
