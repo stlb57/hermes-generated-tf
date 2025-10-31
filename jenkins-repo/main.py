@@ -12,6 +12,7 @@ jinja_env = Environment(
 
 def build_template(node_data, name):
     template = jinja_env.get_template(f"{name}.tf.j2")
+    # This line ensures the template gets the full node object
     return template.render(node_data)
 
 if __name__ == "__main__":
@@ -19,6 +20,16 @@ if __name__ == "__main__":
         request_data = json.load(file)
 
     with open("main.tf", "w") as fd:
+        # This block adds the required AWS provider configuration
+        provider_config = """
+provider "aws" {
+  region = "us-east-1"
+}
+
+"""
+        fd.write(provider_config)
+
+        # This part of your code remains the same
         for node in request_data["nodes"]:
             name = node["type"]
             tf_code = build_template(node, name)
