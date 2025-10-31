@@ -1,7 +1,7 @@
 # In jenkins-repo/main.py
 import json
 import os
-import sys // Import the 'sys' module to read from standard input
+import sys # Import the 'sys' module to read from standard input
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 jinja_env = Environment(loader=FileSystemLoader("templates"))
