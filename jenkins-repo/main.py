@@ -12,7 +12,7 @@ jinja_env = Environment(
 
 def build_template(node_data, name):
     template = jinja_env.get_template(f"{name}.tf.j2")
-    return template.render(node_data['data'])
+    return template.render(node_data)
 
 if __name__ == "__main__":
     with open("data.json", "r") as file:
