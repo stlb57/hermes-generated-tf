@@ -1,24 +1,20 @@
+// In jenkins-repo/Jenkinsfile
 pipeline {
     agent any
+    // This block tells Jenkins to accept a parameter when the build is triggered.
+    parameters {
+        string(name: 'JSON_PAYLOAD', defaultValue: '{}', description: 'JSON data from the frontend')
+    }
     stages {
         stage('Generate Terraform Code') {
             steps {
-                // FIX: Tell Jenkins to run the commands inside this directory
                 dir('jenkins-repo') {
-                    sh 'python3 main.py'
+                    // This command takes the JSON parameter and "pipes" it into your Python script.
+                    sh "echo '${params.JSON_PAYLOAD}' | python3 main.py"
                 }
             }
         }
-        stage('Commit to Git') {
-            steps {
-                dir('jenkins-repo') {
-                    sh 'git config --global user.email "jenkins@example.com"'
-                    sh 'git config --global user.name "Jenkins"'
-                    sh 'git add -f main.tf'
-                    sh 'git commit -m "Auto-generate Terraform code" || true'
-                }
-            }
-        }
+        // The "Commit to Git" stage is no longer needed and should be removed.
         stage('Deploy with Terraform') {
             steps {
                 dir('jenkins-repo') {
